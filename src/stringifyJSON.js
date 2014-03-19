@@ -21,8 +21,13 @@ pseudocode
 1. check if object or array otherwise assume to be primitive
 2a. if primitive, put ' ' around it and then return
 2b. if array, console.log(array) does not print out the [], also needs '' around
-2c. if object console logging it out doesn't print out the key value pairs, just object, object
+2c. if object console logging it out doesn't print out the key value pairs, just object, object a
 
+
+1. do primiitives first, none string ones you can use .tostring() or +''
+2. for strings you have to concat at "'" + string + "'"
+3. for arrays loop though and call on each object
+4. for objects do a for each and call on each key. for each key add the key as a string and concat : + result
 */
 
 };

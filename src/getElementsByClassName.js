@@ -8,9 +8,7 @@ var getElementsByClassName = function (className, rootNode) {
   var resultArray = [];
 // checks to see if rootNode is provided
 // if not then it is original call on document
-  if(rootNode === undefined) {
-    rootNode = document.body;
-  };
+ var rootNode = rootNode || document.body;
 // since text nodes have no classList, check if classList is undefined
 // checks rootNode to see if className is in classList
 // if node contains className, pushes to resultArray
