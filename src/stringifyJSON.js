@@ -3,11 +3,48 @@
 
 // but you don't so you're going to have to write it from scratch:
 var stringifyJSON = function (obj) {
-//converts the object below into a string
-var test = '' + obj;
-console.log(test);
-console.log(typeof(test));
-console.log("this is an object" + {stupid: 0, cracker: "true"});
+
+// checks if obj is a primitive that is not a string
+  if (typeof(obj) !== 'object' && typeof(obj) !== 'string') {
+    //since it's a non-string primitive, can just just convert
+    return obj + '';
+  } else if (typeof(obj) === 'string') {
+    // since it's a string, we need to concat so the single quotes appear
+    return '"' + obj + '"';
+  } else if ($.isArray(obj)) {
+    // it's an array
+    var result = '[';
+    for (var i = 0; i < obj.length; i++) {
+      // add the result of stringifying each element
+	  result += stringifyJSON(obj[i]);
+	  // check if element is last or not and apply ','
+	  if (i < obj.length-1) {
+	    result += ',';
+	  };
+    };
+    // close the array with ]
+    result += ']';
+    return result;
+  } else {
+    // since it's not a primitive or an array, treat it like a reg. obj
+    console.log("found it's an object!");
+	console.log(obj);
+    var result = '{';
+    for (var key in obj) {
+      result += stringifyJSON(key) + ':' + stringifyJSON(object[key]) + ',';
+    };
+	//since an extra ',' was added to last key value for non empty objects, remove it
+	if (result.length > 1) {
+	  result = result.slice(0, result.length-1);
+	};
+	result += '}';
+	console.log(result);
+	return result;
+  };
+};
+  
+
+
 /*
 Notes:
 converts an object to a JSON string of format '' around primitives and 
@@ -29,5 +66,3 @@ pseudocode
 3. for arrays loop though and call on each object
 4. for objects do a for each and call on each key. for each key add the key as a string and concat : + result
 */
-
-};
