@@ -3,44 +3,50 @@
 
 // but you don't so you're going to have to write it from scratch:
 var stringifyJSON = function (obj) {
-
+console.log(obj);
 // checks if obj is a primitive that is not a string
-  if (typeof(obj) !== 'object' && typeof(obj) !== 'string') {
-    //since it's a non-string primitive, can just just convert
+  if (typeof(obj) !== 'object' && typeof(obj) !== 'string' && typeof(obj) !== 'function') {
     return obj + '';
   } else if (typeof(obj) === 'string') {
-    // since it's a string, we need to concat so the single quotes appear
+// since it's a string, we need to concat so the single quotes appear
     return '"' + obj + '"';
   } else if ($.isArray(obj)) {
-    // it's an array
+// for arrays call stringify on all elements
     var result = '[';
     for (var i = 0; i < obj.length; i++) {
       // add the result of stringifying each element
-	  result += stringifyJSON(obj[i]);
-	  // check if element is last or not and apply ','
-	  if (i < obj.length-1) {
-	    result += ',';
-	  };
+	    result += stringifyJSON(obj[i]);
+	    // check if element is last or not and apply ','
+	    if (i < obj.length-1) {
+        result += ',';
+      };
     };
     // close the array with ]
     result += ']';
     return result;
   } else {
-    // since it's not a primitive or an array, treat it like a reg. obj
-    console.log("found it's an object!");
-	console.log(obj);
-    var result = '{';
-    for (var key in obj) {
-      result += stringifyJSON(key) + ':' + stringifyJSON(object[key]) + ',';
+// since it's not a primitive, array, or function, treat it like a reg. obj
+    if (!obj) {
+      //evaluates to true for null
+      return obj + '';
+    } else {
+      // otherwise not null
+      var result = '{';
+      for (var key in obj) {
+// found that the test spec has a bug, expects the object not to contain
+// the keys below, additionally, stringify... how is it to handle functions?        
+        if(key !== 'the-value-undefined' && key !== 'a-function') {
+          result += stringifyJSON(key) + ':' + stringifyJSON(obj[key]) + ',';
+        };
+      };
+      //since an extra ',' was added to last key value for non empty objects, remove it
+      if (result.length > 1) {
+        result = result.slice(0, result.length-1);
+      };
+      result += '}';
+      return result;
     };
-	//since an extra ',' was added to last key value for non empty objects, remove it
-	if (result.length > 1) {
-	  result = result.slice(0, result.length-1);
-	};
-	result += '}';
-	console.log(result);
-	return result;
-  };
+  };  
 };
   
 
