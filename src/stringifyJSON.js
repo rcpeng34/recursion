@@ -33,9 +33,8 @@ console.log(obj);
       // otherwise not null
       var result = '{';
       for (var key in obj) {
-// found that the test spec has a bug, expects the object not to contain
-// the keys below, additionally, stringify... how is it to handle functions?        
-        if(key !== 'the-value-undefined' && key !== 'a-function') {
+// stringify does not handle undefined or functions       
+        if(obj[key] !== undefined && typeof(obj[key]) !== "function") {
           result += stringifyJSON(key) + ':' + stringifyJSON(obj[key]) + ',';
         };
       };
